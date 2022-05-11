@@ -7,14 +7,14 @@ const dom = (() => {
 
   const callByLocation = async function (location) {
     await ControllerAPI.callCoordAPI(
-      location.coords.latitudweatgh,
+      location.coords.latitude,
       location.coords.longitude,
       "metric"
     );
     main.insertAdjacentHTML("afterbegin", domMarkups.mainCard());
   };
 
-  const callByCity = async function (city) { 
+  const callByCity = async function (city) {
     await ControllerAPI.callCityAPI("Vilnius", "metric");
   };
 
