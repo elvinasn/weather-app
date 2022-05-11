@@ -1,9 +1,6 @@
+import { ControllerAPI } from "./ControllerAPI";
 const domMarkups = (() => {
-  let currentData;
-  const mainCard = async function (data) {
-    currentData = await data;
-    console.log(currentData);
-  };
+  const mainCard = () => {};
   return { mainCard };
 })();
 export { domMarkups };

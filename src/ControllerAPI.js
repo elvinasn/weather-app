@@ -49,7 +49,8 @@ const ControllerAPI = (() => {
       throw error;
     }
   };
+  const getCurrentCity = () => currentCity;
 
-  return { callCoordAPI, callCityAPI };
+  return { getCurrentCity, callCoordAPI, callCityAPI };
 })();
 export { ControllerAPI };

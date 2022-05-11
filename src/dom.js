@@ -5,11 +5,24 @@ import { helpers } from "./helpers";
 const dom = (() => {
   const main = document.querySelector("main");
 
+  const callByLocation = async function (location) {
+    await ControllerAPI.callCoordAPI(
+      location.coords.latitudweatgh,
+      location.coords.longitude,
+      "metric"
+    );
+    main.insertAdjacentHTML("afterbegin", domMarkups.mainCard());
+  };
+
+  const callByCity = async function (city) { 
+    await ControllerAPI.callCityAPI("Vilnius", "metric");
+  };
+
   const init = () => {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(helpers.callByLocation);
+      navigator.geolocation.getCurrentPosition(callByLocation);
     } else {
-      ControllerAPI.callCityAPI("Vilnius", "metric");
+      callByCity("Vilnius");
     }
   };
   return { init };
