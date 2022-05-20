@@ -58,6 +58,7 @@ header img {
 .card__temp {
   font-size: 60px;
   font-weight: 700;
+  margin-bottom: 10px;
 }
 
 .card__right {

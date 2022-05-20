@@ -10,34 +10,42 @@ const ControllerAPI = (() => {
     });
   };
 
-  const populateCityInfo = (data) => {
+  const populateCurrentInfo = (data) => {
     currentCity = City(
       data.name,
-      Math.round(data.main.temp),
-      Math.round(data.main.feels_like),
-      data.visibility / 1000,
-      Math.round(data.wind.speed),
-      data.wind.deg,
-      data.main.pressure,
-      data.main.humidity,
-      convertTime(data.dt),
-      data.weather[0].description,
-      data.weather[0].icon
+      Math.round(data.current.temp),
+      Math.round(data.current.feels_like),
+      data.current.visibility / 1000,
+      Math.round(data.current.wind_speed),
+      data.current.wind_deg,
+      data.current.pressure,
+      data.current.humidity,
+      convertTime(data.current.dt),
+      data.current.weather[0].description,
+      data.current.weather[0].icon
     );
   };
 
   const callCoordAPI = async function (lat, lon, units) {
-    let data;
+    let dataOneCall;
     try {
-      const response = await fetch(
-        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=${units}&appid=${KEY}`,
+      const responseAll = await fetch(
+        `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=minutely,alerts&units=${units}&appid=${KEY}`,
         {
           mode: "cors",
         }
       );
-      data = await response.json();
-      populateCityInfo(data);
-      console.log(data);
+      dataOneCall = await responseAll.json();
+      const responseCurrent = await fetch(
+        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${KEY}`,
+        {
+          mode: "cors",
+        }
+      );
+      const dataCurrent = await responseCurrent.json();
+      dataOneCall.name = dataCurrent.name;
+      console.log(dataOneCall);
+      populateCurrentInfo(dataOneCall);
     } catch (error) {
       console.log("s");
       throw error;
