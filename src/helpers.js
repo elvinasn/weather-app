@@ -17,6 +17,23 @@ const helpers = (() => {
     splitted = (splitted + 8) % 8;
     return directions[splitted];
   };
-  return { getDirection };
+
+  const convertTime = (epoch) => {
+    const date = new Date(epoch * 1000);
+    return date.toLocaleString("en-GB", {
+      hour: "numeric",
+      minute: "numeric",
+    });
+  };
+
+  const convertDate = (epoch) => {
+    const date = new Date(epoch * 1000);
+    return {
+      weekDay: date.toLocaleString("default", { weekday: "short" }),
+      month: date.getMonth() + 1,
+      day: date.getDate(),
+    };
+  };
+  return { getDirection, convertDate, convertTime };
 })();
 export { helpers };

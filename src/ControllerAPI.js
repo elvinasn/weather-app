@@ -1,29 +1,30 @@
-import { City } from "./city";
+import { Forecast } from "./forecast";
+import { helpers } from "./helpers";
 const ControllerAPI = (() => {
   const KEY = "ec3ad567ee737d86887a91d6dd7a0000";
-  let currentCity;
-  const convertTime = (epoch) => {
-    const date = new Date(epoch * 1000);
-    return date.toLocaleString("en-GB", {
-      hour: "numeric",
-      minute: "numeric",
-    });
-  };
+  let currentForecast;
 
-  const populateCurrentInfo = (data) => {
-    currentCity = City(
-      data.name,
-      Math.round(data.current.temp),
-      Math.round(data.current.feels_like),
-      data.current.visibility / 1000,
-      Math.round(data.current.wind_speed),
-      data.current.wind_deg,
-      data.current.pressure,
-      data.current.humidity,
-      convertTime(data.current.dt),
-      data.current.weather[0].description,
-      data.current.weather[0].icon
-    );
+  const populateInfo = (data) => {
+    const current = {
+      temp: Math.round(data.current.temp),
+      feelsLike: Math.round(data.current.feels_like),
+      visibility: data.current.visibility / 1000,
+      windSpeed: Math.round(data.current.wind_speed),
+      windDegrees: data.current.wind_deg,
+      pressure: data.current.pressure,
+      humidity: data.current.humidity,
+      time: helpers.convertTime(data.current.dt),
+      description: data.current.weather[0].description,
+      icon: data.current.weather[0].icon,
+    };
+
+    const daily = data.daily.map((day) => ({
+      date: helpers.convertDate(day.dt),
+      tempDay: Math.round(day.temp.day),
+      tempNight: Math.round(day.temp.night),
+      icon: day.weather[0].icon,
+    }));
+    currentForecast = Forecast(data.name, data.lat, data.lon, current, daily);
   };
 
   const callCoordAPI = async function (lat, lon, units) {
@@ -44,8 +45,8 @@ const ControllerAPI = (() => {
       );
       const dataCurrent = await responseCurrent.json();
       dataOneCall.name = dataCurrent.name;
-      console.log(dataOneCall);
-      populateCurrentInfo(dataOneCall);
+      populateInfo(dataOneCall);
+      console.log(currentForecast);
     } catch (error) {
       console.log("s");
       throw error;
@@ -53,23 +54,33 @@ const ControllerAPI = (() => {
   };
 
   const callCityAPI = async function (cityName, units) {
-    let data;
+    let dataCurrent;
     try {
-      const response = await fetch(
+      const responseCurrent = await fetch(
         `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=${units}&appid=${KEY}`,
         {
           mode: "cors",
         }
       );
-      data = await response.json();
-      populateCityInfo(data);
+      dataCurrent = await responseCurrent.json();
+      const responseAll = await fetch(
+        `https://api.openweathermap.org/data/2.5/onecall?lat=${dataCurrent.coord.lat}&lon=${dataCurrent.coord.lon}&exclude=minutely,alerts&units=${units}&appid=${KEY}`,
+        {
+          mode: "cors",
+        }
+      );
+      const dataOneCall = await responseAll.json();
+      dataOneCall.name = dataCurrent.name;
+
+      console.log(dataOneCall);
+      populateInfo(dataOneCall);
     } catch (error) {
       console.log("s");
       throw error;
     }
   };
-  const getCurrentCity = () => currentCity;
+  const getCurrentForecast = () => currentForecast;
 
-  return { getCurrentCity, callCoordAPI, callCityAPI };
+  return { getCurrentForecast, callCoordAPI, callCityAPI };
 })();
 export { ControllerAPI };

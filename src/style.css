@@ -29,7 +29,17 @@ header img {
   height: 42px;
   width: 42px;
 }
+main {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+}
 .main-card {
+  width: fit-content;
+}
+.main-card,
+.daily-card {
   background-color: #333;
   padding: 30px;
   text-align: center;
@@ -70,4 +80,28 @@ header img {
 }
 .card__right > p > span {
   font-weight: 700;
+}
+.daily-card {
+  display: flex;
+  gap: 10px;
+}
+.day__date {
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 20px;
+}
+.day__temp {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  align-items: baseline;
+}
+.temp__day {
+  font-size: 20px;
+  font-weight: 700;
+}
+.gap__fill {
+  width: 2px;
+  height: 160px;
+  background-color: #eee;
 }
