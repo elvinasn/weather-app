@@ -7,12 +7,10 @@ import "swiper/css/navigation";
 
 const dom = (() => {
   const main = document.querySelector("main");
-  const callByLocation = async function (location) {
-    await ControllerAPI.callCoordAPI(
-      location.coords.latitude,
-      location.coords.longitude,
-      "metric"
-    );
+  const Clear = () => {
+    main.innerHTML = "";
+  };
+  const insertForecast = () => {
     main.insertAdjacentHTML("beforeend", domMarkups.mainCard());
     main.insertAdjacentHTML("beforeend", domMarkups.dailyCard());
     main.insertAdjacentHTML("beforeend", domMarkups.hourlyCard());
@@ -25,29 +23,41 @@ const dom = (() => {
       },
     });
   };
+  const callByLocation = async function (location) {
+    await ControllerAPI.callCoordAPI(
+      location.coords.latitude,
+      location.coords.longitude,
+      localStorage.getItem("units")
+    );
+    insertForecast();
+  };
 
   const callByCity = async function (city) {
     await ControllerAPI.callCityAPI(city, "metric");
-    main.insertAdjacentHTML("beforeend", domMarkups.mainCard());
-    main.insertAdjacentHTML("beforeend", domMarkups.dailyCard());
-    main.insertAdjacentHTML("beforeend", domMarkups.hourlyCard());
-    const swiper = new Swiper(".mySwiper", {
-      modules: [Navigation],
-      slidesPerView: 8,
-      navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev",
-      },
-    });
+    insertForecast();
   };
 
   function errorCallback() {
     callByCity("Vilnius");
   }
   const init = () => {
+    main.insertAdjacentHTML("afterbegin", domMarkups.spinner());
+    const check = document.querySelector("input[type=checkbox]");
+    const value = localStorage.getItem("units");
+    if (!value) {
+      localStorage.setItem("units", "metric");
+    } else {
+      check.checked = value !== "metric";
+    }
+    check.addEventListener("change", () => {
+      localStorage.setItem("units", check.checked ? "imperial" : "metric");
+      Clear();
+      main.insertAdjacentHTML("afterbegin", domMarkups.spinner());
+      navigator.geolocation.getCurrentPosition(callByLocation, errorCallback);
+    });
     navigator.geolocation.getCurrentPosition(callByLocation, errorCallback);
   };
 
-  return { init };
+  return { init, Clear };
 })();
 export { dom };

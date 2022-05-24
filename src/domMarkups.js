@@ -1,8 +1,11 @@
 import { ControllerAPI } from "./ControllerAPI";
 import { helpers } from "./helpers";
+import { dom } from "./dom";
 const domMarkups = (() => {
   const mainCard = () => {
+    dom.Clear();
     const forecast = ControllerAPI.getCurrentForecast();
+    const units = localStorage.getItem("units") === "metric" ? "C" : "F";
     return `<div class="main-card">
       <div class="card__top">
         <h2>${forecast.name}</h2>
@@ -16,8 +19,8 @@ const domMarkups = (() => {
           <p>${forecast.current.description}</p>
         </div>
       <div class="card__middle">
-        <p class="card__temp">${forecast.current.temp}°C</p>
-        <p>feels like ${forecast.current.feelsLike}°C</p>
+        <p class="card__temp">${forecast.current.temp}°${units}</p>
+        <p>feels like ${forecast.current.feelsLike}°${units}</p>
       </div>
       <div class="card__right">
         <p><span>Pressure: </span>${forecast.current.pressure} hPa</p>
@@ -30,25 +33,33 @@ const domMarkups = (() => {
     </div>
   </div>`;
   };
-  const dailyMarkup = (day) => `
+  const dailyMarkup = (day) => {
+    const units = localStorage.getItem("units") === "metric" ? "C" : "F";
+
+    return `
   <div class="day__content">
       <p class="day__date">${day.date.weekDay} ${day.date.month}-${day.date.day}</p>
       <img src="http://openweathermap.org/img/wn/${day.icon}@2x.png" alt="" />
       <p class="day__temp">
-        <span class="temp__day">${day.tempDay}°C</span
-        ><span class="temp__night">${day.tempNight}°C</span>
+        <span class="temp__day">${day.tempDay}°${units}</span
+        ><span class="temp__night">${day.tempNight}°${units}</span>
       </p>
     </div>`;
+  };
 
-  const hourlyMarkup = (hour) => `
-  <div class="hour__content swiper-slide">
-            <p class="day__date">${hour.time}</p>
-            <img src="http://openweathermap.org/img/wn/${hour.icon}@2x.png" alt="" />
-            <p class="day__temp">
-              <span class="temp__day">${hour.temp}°C</span>
-            </p>
-          </div>
-  `;
+  const hourlyMarkup = (hour) => {
+    const units = localStorage.getItem("units") === "metric" ? "C" : "F";
+    return `
+    <div class="hour__content swiper-slide">
+              <p class="day__date">${hour.time}</p>
+              <img src="http://openweathermap.org/img/wn/${hour.icon}@2x.png" alt="" />
+              <p class="day__temp">
+                <span class="temp__day">${hour.temp}°${units}</span>
+              </p>
+            </div>
+    `;
+  };
+
   const dailyCard = () => {
     const forecast = ControllerAPI.getCurrentForecast();
     return `
@@ -71,6 +82,9 @@ const domMarkups = (() => {
     `;
   };
 
-  return { mainCard, dailyCard, hourlyCard };
+  const spinner = () =>
+    `<div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>`;
+
+  return { mainCard, dailyCard, hourlyCard, spinner };
 })();
 export { domMarkups };
