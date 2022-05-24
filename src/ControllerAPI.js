@@ -85,7 +85,6 @@ const ControllerAPI = (() => {
       const dataOneCall = await responseAll.json();
       dataOneCall.name = dataCurrent.name;
 
-      console.log(dataOneCall);
       populateInfo(dataOneCall);
     } catch (error) {
       console.log("s");

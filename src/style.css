@@ -270,3 +270,29 @@ main {
     transform: rotate(360deg);
   }
 }
+/* SEARCH STYLING */
+input[type="text"] {
+  border: none;
+  background-color: #222;
+  color: #eee;
+  font-size: 16px;
+  padding: 2px 10px;
+}
+input[type="text"]:focus {
+  outline: 2px solid #eee;
+}
+.search__button {
+  padding: 2px 10px;
+  margin-left: 5px;
+  background-color: #222;
+  border: none;
+  font-size: 16px;
+  border-radius: 5px;
+  color: #eee;
+  cursor: pointer;
+  transition: 0.4s ease;
+}
+.search__button:hover {
+  background-color: #111;
+  color: #aaa;
+}

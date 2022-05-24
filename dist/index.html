@@ -8,12 +8,20 @@
   <script defer src="main.js"></script></head>
   <body>
     <header>
-      <img src="assets/images/weather-svgrepo-com..svg" alt="" />
-      <h1>WEATHERINO FORECAST</h1>
       <label class="toggle">
         <input type="checkbox" />
         <span class="labels" data-on="F" data-off="C"></span>
       </label>
+      <img src="assets/images/weather-svgrepo-com..svg" alt="" />
+      <h1>WEATHERINO FORECAST</h1>
+      <form>
+        <input
+          type="text"
+          id="location"
+          placeholder="Search for the location"
+        />
+        <button class="search__button">Search</button>
+      </form>
     </header>
     <main></main>
   </body>

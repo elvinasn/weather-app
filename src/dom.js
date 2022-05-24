@@ -7,9 +7,18 @@ import "swiper/css/navigation";
 
 const dom = (() => {
   const main = document.querySelector("main");
+  const form = document.querySelector("form");
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    Clear();
+    main.insertAdjacentHTML("afterbegin", domMarkups.spinner());
+    callByCity(document.getElementById("location").value);
+  });
   const Clear = () => {
     main.innerHTML = "";
   };
+
   const insertForecast = () => {
     main.insertAdjacentHTML("beforeend", domMarkups.mainCard());
     main.insertAdjacentHTML("beforeend", domMarkups.dailyCard());
@@ -33,7 +42,7 @@ const dom = (() => {
   };
 
   const callByCity = async function (city) {
-    await ControllerAPI.callCityAPI(city, "metric");
+    await ControllerAPI.callCityAPI(city, localStorage.getItem("units"));
     insertForecast();
   };
 
