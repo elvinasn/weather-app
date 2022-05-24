@@ -39,6 +39,16 @@ const domMarkups = (() => {
         ><span class="temp__night">${day.tempNight}°C</span>
       </p>
     </div>`;
+
+  const hourlyMarkup = (hour) => `
+  <div class="hour__content swiper-slide">
+            <p class="day__date">${hour.time}</p>
+            <img src="http://openweathermap.org/img/wn/${hour.icon}@2x.png" alt="" />
+            <p class="day__temp">
+              <span class="temp__day">${hour.temp}°C</span>
+            </p>
+          </div>
+  `;
   const dailyCard = () => {
     const forecast = ControllerAPI.getCurrentForecast();
     return `
@@ -48,7 +58,19 @@ const domMarkups = (() => {
         .join(`<div class="gap__fill"></div>`)}
       </div>`;
   };
+  const hourlyCard = () => {
+    const forecast = ControllerAPI.getCurrentForecast();
+    return `
+    <div class="swiper mySwiper">
+        <div class="swiper-wrapper">
+          ${forecast.hourly.map((hour) => hourlyMarkup(hour)).join("")}
+        </div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+      </div>
+    `;
+  };
 
-  return { mainCard, dailyCard };
+  return { mainCard, dailyCard, hourlyCard };
 })();
 export { domMarkups };

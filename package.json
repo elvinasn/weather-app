@@ -38,6 +38,8 @@
     "webpack-cli": "^4.9.2"
   },
   "dependencies": {
-    "@babel/runtime": "^7.17.9"
+    "@babel/runtime": "^7.17.9",
+    "@splidejs/splide": "^4.0.2",
+    "swiper": "^8.1.5"
   }
 }

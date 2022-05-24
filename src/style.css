@@ -85,6 +85,14 @@ main {
   display: flex;
   gap: 10px;
 }
+.swiper .hour__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.swiper .hour__content:not(:last-child) {
+  border-right: 2px solid #eee;
+}
 .day__date {
   text-transform: uppercase;
   font-weight: 700;
@@ -101,7 +109,14 @@ main {
   font-weight: 700;
 }
 .gap__fill {
-  width: 2px;
   height: 160px;
+  width: 2px;
   background-color: #eee;
+}
+.swiper {
+  height: 220px;
+  width: 1014px;
+  background-color: #333;
+  padding: 30px !important;
+  border-radius: 20px;
 }

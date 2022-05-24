@@ -24,7 +24,20 @@ const ControllerAPI = (() => {
       tempNight: Math.round(day.temp.night),
       icon: day.weather[0].icon,
     }));
-    currentForecast = Forecast(data.name, data.lat, data.lon, current, daily);
+
+    const hourly = data.hourly.map((hour) => ({
+      time: helpers.convertTime(hour.dt),
+      icon: hour.weather[0].icon,
+      temp: Math.round(hour.temp),
+    }));
+    currentForecast = Forecast(
+      data.name,
+      data.lat,
+      data.lon,
+      current,
+      daily,
+      hourly
+    );
   };
 
   const callCoordAPI = async function (lat, lon, units) {
