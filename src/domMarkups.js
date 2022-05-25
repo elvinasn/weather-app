@@ -28,7 +28,7 @@ const domMarkups = (() => {
         <p><span>Visibility: </span>${forecast.current.visibility}km</p>
         <p><span>Wind: </span> ${helpers.getDirection(
           forecast.current.windDegrees
-        )} ${forecast.current.windSpeed} m/s</p>
+        )} ${forecast.current.windSpeed} ${units === "C" ? "m/s" : "mph"}</p>
       </div>
     </div>
   </div>`;
@@ -37,7 +37,7 @@ const domMarkups = (() => {
     const units = localStorage.getItem("units") === "metric" ? "C" : "F";
 
     return `
-  <div class="day__content">
+  <div class="day__content swiper-slide">
       <p class="day__date">${day.date.weekDay} ${day.date.month}-${day.date.day}</p>
       <img src="http://openweathermap.org/img/wn/${day.icon}@2x.png" alt="" />
       <p class="day__temp">
@@ -63,10 +63,14 @@ const domMarkups = (() => {
   const dailyCard = () => {
     const forecast = ControllerAPI.getCurrentForecast();
     return `
-    <div class="daily-card">
+    <div class="swiper daily-card">
+    <div class="swiper-wrapper">
       ${forecast.daily
         .map((day) => dailyMarkup(day))
         .join(`<div class="gap__fill"></div>`)}
+        </div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
       </div>`;
   };
   const hourlyCard = () => {
@@ -85,6 +89,14 @@ const domMarkups = (() => {
   const spinner = () =>
     `<div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>`;
 
-  return { mainCard, dailyCard, hourlyCard, spinner };
+  const error = () => {
+    dom.Clear();
+    return `<div class="error__wrapper">
+      <p class="error">Error 404</p>
+      <p class="error__info">Something went wrong.</p>
+    </div>`;
+  };
+
+  return { mainCard, dailyCard, hourlyCard, spinner, error };
 })();
 export { domMarkups };

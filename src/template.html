@@ -5,24 +5,40 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Weatherino</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
+      integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ=="
+      crossorigin=""
+    />
+    <script
+      src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
+      integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
+      crossorigin=""
+    ></script>
   </head>
   <body>
     <header>
+      <img src="images/weather-svgrepo-com.svg" alt="" />
+      <h1>WEATHERINO FORECAST</h1>
+    </header>
+    <div class="buttons__wrapper">
       <label class="toggle">
         <input type="checkbox" />
         <span class="labels" data-on="F" data-off="C"></span>
       </label>
-      <img src="images/weather-svgrepo-com.svg" alt="" />
-      <h1>WEATHERINO FORECAST</h1>
-      <form>
-        <input
-          type="text"
-          id="location"
-          placeholder="Search for the location"
-        />
-        <button class="search__button">Search</button>
-      </form>
-    </header>
+      <button class="btn" id="current">Current Location</button>
+    </div>
+    <form>
+      <input type="text" id="location" placeholder="Search for the location" />
+      <button class="btn">Search</button>
+    </form>
     <main></main>
+    <footer>
+      <p>Created by Elvinas Nejus</p>
+      <a href="https://github.com/elvinasn" target="_blank"
+        ><img src="images/github.png"
+      /></a>
+    </footer>
   </body>
 </html>

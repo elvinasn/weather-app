@@ -60,9 +60,9 @@ const ControllerAPI = (() => {
       dataOneCall.name = dataCurrent.name;
       populateInfo(dataOneCall);
       console.log(currentForecast);
+      return true;
     } catch (error) {
-      console.log("s");
-      throw error;
+      return false;
     }
   };
 
@@ -84,13 +84,14 @@ const ControllerAPI = (() => {
       );
       const dataOneCall = await responseAll.json();
       dataOneCall.name = dataCurrent.name;
-
       populateInfo(dataOneCall);
+      return true;
     } catch (error) {
-      console.log("s");
-      throw error;
+      return false;
     }
   };
+
+ 
   const getCurrentForecast = () => currentForecast;
 
   return { getCurrentForecast, callCoordAPI, callCityAPI };
