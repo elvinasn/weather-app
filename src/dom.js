@@ -127,7 +127,12 @@ const dom = (() => {
       const current = ControllerAPI.getCurrentForecast();
       callByCoords(current.lat, current.lon);
     });
-    navigator.geolocation.getCurrentPosition(callByLocation, errorCallback);
+    /// IF NOT MOBILE USER
+    if (navigator && navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(callByLocation, errorCallback);
+    } else {
+      callByCity("Vilnius");
+    }
   };
 
   return { init, Clear };

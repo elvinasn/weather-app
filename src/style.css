@@ -275,14 +275,14 @@ main {
   }
 }
 /* SEARCH STYLING */
-input[type="text"] {
+#location {
   border: none;
   background-color: #333;
   color: #eee;
   font-size: 16px;
   padding: 2px 10px;
 }
-input[type="text"]:focus {
+#location:focus {
   outline: 2px solid #eee;
 }
 .btn {
